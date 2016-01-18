@@ -1,3 +1,6 @@
+#pragma once
+
+
 #include <iostream>
 #include <fstream>
 #include <stdint.h>
@@ -5,7 +8,7 @@
 #include <vector>
 #include <algorithm>
 //#include <chrono>
-#include "/home/an/atomic_ops/include/atomic_ops.h"
+#include "/home/naravind/research/atomic_ops/include/atomic_ops.h"
 
 #define WINDOW_SIZE 10
 #define MAX_PROCESSES 512
@@ -260,46 +263,6 @@ void update_oprecord(thread_data_t * data, oprec_t * O, node_t * current, AO_t c
 /* ################################################################### *
  * Mapping Definitions
  * ################################################################### */
-
-AO_INLINE int
-AO_compare_double_and_swap_double1(volatile AO_double_t *addr,
-                                       AO_t old_val1, AO_t old_val2,
-                                       AO_t new_val1, AO_t new_val2)
-{
-  char result;
-  __asm__ __volatile__("lock; cmpxchg16b %0; setz %1"
-                                : "=m"(*addr), "=q"(result)
-                                        : "m"(*addr),
-                                          "d" (old_val2),
-                                          "a" (old_val1),
-                                          "c" (new_val2),
-                                          "b" (new_val1)  : "memory");
-  return (int) result;
-}
-
-
-AO_INLINE AO_double_t
-atomic_load(const volatile AO_double_t *addr)
-{
-  
-  
-    while(true){
-  const AO_double_t A =  *(const AO_double_t *)addr;
-  const AO_double_t B =  *(const AO_double_t *)addr;
-  	if(A.AO_val1 == B.AO_val1 && A.AO_val2 == B.AO_val2){
-  		return B;
-  	}
-  
-  }
-  
-}
-AO_INLINE AO_t
-AO_load1(const volatile AO_t *addr)
-{
-  /* Cast away the volatile for architectures like IA64 where   */
-  /* volatile adds barrier semantics.                           */
-  return (*(const AO_t *)addr);
-}
 
 #define MARK_BIT 0
 

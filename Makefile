@@ -1,6 +1,6 @@
-VERSION = TCMALLOC_NO_UPDATE
+VERSION = MALLOC_NO_UPDATE
 
-CC = g++ -O3 -std=gnu++0x -g -w
+CC = g++ -O0 -std=gnu++0x -g -w
 
 ifeq "$(VERSION)" "MALLOC_UPDATE"
 CFLAGS = -lpthread -lrt -DUPDATEVAL
@@ -11,7 +11,7 @@ else
 ifeq "$(VERSION)" "TCMALLOC_NO_UPDATE"
 CFLAGS = -lpthread -lrt /usr/lib64/libtcmalloc.so.4
 else
-CFLAGS = -lpthread -lrt
+CFLAGS = -pthread -lrt
 endif
 endif
 endif
